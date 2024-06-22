@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event index{% endblock %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert text-{{ type }}-600 alert-dismissible">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mb-4">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <caption class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+                Users
+
+            </caption>
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    
+                    <th scope="col" class="px-6 py-3">
+                        Titre
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Description
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Date
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Inscrits
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Public
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Créateur
+                    </th>
+                    {% if app.user %}
+                        <th scope="col" class="px-6 py-3">
+                            Actions
+                        </th>
+                    {% endif %}
+
+                
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in events %}
+                    <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ event.title }}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ event.description }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ event.date ? event.date|date('Y-m-d H:i:s') : '' }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{event.inscriptions|length }}/{{ event.maxpeople }}
+                        </td>
+                        <td class="px-6 py-4">
+                        {# check si verifié et croix sinon #}
+                            {% if event.public %}
+                                <span class="mdi mdi-check text-green-500"></span>
+                            {% else %}
+                                <span class="mdi mdi-close text-red-500"></span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4">
+
+                            {{ event.creator.email}}
+                        </td>
+
+                        {% if app.user %}
+                            <td class="px-6 py-4">
+                            {% if event.creator == app.user %}
+                                <a href="{{ path('app_event_edit', {'id': event.id}) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">edit</a>
+                            {% endif %}
+
+                           
+                            {% set is_user_enrolled = false %}
+                            {% for inscription in event.inscriptions %}
+                                {% if inscription.user == app.user %}
+                                    {% set is_user_enrolled = true %}
+                                    <a href="{{ path('app_unroll_event', {'event_id': event.id}) }}" class="font-medium text-red-600 dark:text-red-500 hover:underline">unsubscribe</a>
+                                    
+                                {% endif %}
+                            {% endfor %}
+                            {% if ((not is_user_enrolled) and event.inscriptions|length < event.maxpeople) %}
+                                <a href="{{ path('app_enroll_event', {'event_id': event.id}) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">subscribe</a>
+                            {% endif %}
+    
+
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">no records found</td>
+                    </tr>
+                {% endfor %}
+
+                
+            </tbody>
+        </table>
+    </div>
+
+    <a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" href="{{ path('app_event_new') }}">Create new</a>
+
+
+
+{% endblock %}
+
+
+  

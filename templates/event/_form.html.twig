@@ -1,0 +1,106 @@
+<section class="max-w-lg mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <a href="{{ path('app_event_index') }}" class="w-7 h-7 text-gray-500 dark:text-gray-400 mb-3">
+        <span class="mdi mdi-arrow-left"></span>
+    </a>   
+    <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
+        <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">{{ title }}</h2>
+        
+        {{ form_start(form) }}
+        
+        {% if form.vars.errors|length > 0 %}
+            <div class="alert alert-danger">
+                {{ form_errors(form) }}
+            </div>
+        {% endif %}
+        
+        <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+            <div class="w-full">
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                <input type="text" name="{{ field_name(form.title) }}" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                value="{{ field_value(form.title) }}" placeholder="Enter Your Name" required>
+                {% if form.title.vars.errors|length > 0 %}
+                    <div class="text-sm text-red-600">
+                        {{ form_errors(form.title) }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="w-full">
+                <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
+                <input type="datetime-local" name="{{ field_name(form.date) }}" id="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                value="{{ field_value(form.date) }}" placeholder="Date" required>
+                {% if form.date.vars.errors|length > 0 %}
+                    <div class="text-sm text-red-600">
+                        {{ form_errors(form.date) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="w-full mb-4">
+            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+            <input type="text" name="{{ field_name(form.description) }}" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+            value="{{ field_value(form.description) }}" placeholder="Description" required>
+            {% if form.description.vars.errors|length > 0 %}
+                <div class="text-sm text-red-600">
+                    {{ form_errors(form.description) }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="w-full">
+            <label for="Capacité" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Capacité</label>
+            <input type="number" name="{{ field_name(form.maxpeople) }}" id="Capacité" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+            value="{{ field_value(form.maxpeople) }}" placeholder="Capacité" required>
+            {% if form.maxpeople.vars.errors|length > 0 %}
+                <div class="text-sm text-red-600">
+                    {{ form_errors(form.maxpeople) }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="w-full mb-4">
+            <label for="public" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Public</label>
+            <input type="checkbox" name="{{ field_name(form.public) }}" id="public" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+            value="{{ field_value(form.public) }}" placeholder="Public">
+            {% if form.public.vars.errors|length > 0 %}
+                <div class="text-sm text-red-600">
+                    {{ form_errors(form.public) }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="flex items-center space-x-4">
+            <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
+                {{button_label}}
+            </button>
+        </div>
+        
+        {{ form_end(form) }}
+        
+        {% if delete %}
+            {{ include('event/_delete_form.html.twig') }} 
+        {% endif %}
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function padTo2Digits(num) {
+            return num.toString().padStart(2, '0');
+        }
+
+        function getCurrentDateTimeLocal() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = padTo2Digits(now.getMonth() + 1); // Months are zero-indexed
+            const day = padTo2Digits(now.getDate());
+            const hours = padTo2Digits(now.getHours());
+            const minutes = padTo2Digits(now.getMinutes());
+
+            return `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+
+        // Set the min attribute of the datetime-local input
+        document.getElementById('date').setAttribute('min', getCurrentDateTimeLocal());
+    });
+</script>

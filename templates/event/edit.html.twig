@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Event{% endblock %}
+
+{% block body %}
+    <section class="bg-white dark:bg-gray-900">
+        <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
+            {{ include('event/_form.html.twig', {'button_label': 'Modifier', 'title': 'Modifier un évenement', 'delete' : true}) }}
+        </div>
+    </section>
+{% endblock %}

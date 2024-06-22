@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Signup{% endblock %}
+
+{% block body %}
+<section class="bg-white dark:bg-gray-900">
+  <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
+      <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Modifier mon profil</h2>
+        {{ form_start(form) }}
+        <div class="w-full">
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Adresse Mail</label>
+            <input type="email" name="{{ field_name(form.email) }}" id="oldpassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+            value="{{ field_value(form.email) }}" placeholder="Entrez votre adresse mail">
+            <div class="text-sm text-red-600">
+                {{ form_errors(form.email) }}
+            </div>
+        </div>
+        <div class="w-full">
+                  <label for="password_verif" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom/prénom</label>
+                  <input type="name" name="{{ field_name(form.name) }}" id="password_verif" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                  value="{{ field_value(form.name) }}" placeholder="Entrez votre nom/prénom">
+                  <div class="text-sm text-red-600">
+                    {{ form_errors(form.name) }}
+                  </div>
+              </div>
+          <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+              <div class="w-full">
+                  <label for="plainPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nouveau mot de passe</label>
+                  <input type="password" name="{{ field_name(form.plainPassword) }}" id="plainPassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                  value="{{ field_value(form.plainPassword) }}" placeholder="Entrez votre nouveau mot de passe">
+                  <div class="text-sm text-red-600">
+                    {{ form_errors(form.plainPassword) }}
+                  </div>
+              </div>
+              <div class="w-full">
+                  <label for="password_verif" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Verification du mot de passe</label>
+                  <input type="password" name="{{ field_name(form.passwordVerif) }}" id="password_verif" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                  value="{{ field_value(form.passwordVerif) }}" placeholder="Entrez votre mot de passe">
+                  <div class="text-sm text-red-600">
+                    {{ form_errors(form.passwordVerif) }}
+                  </div>
+              </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
+                Mettre à jour
+            </button>
+            {% for message in app.flashes('error') %}
+                <div class="text-sm text-red-600">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+          </div>
+        {{ form_end(form) }}
+
+  </div>
+</section>
+
+
+
+
+
+
+
+
+{% endblock %}

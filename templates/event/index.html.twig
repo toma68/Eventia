@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event index{% endblock %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert text-{{ type }}-600 alert-dismissible">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="grid gap-4 mb-4 sm:grid-cols-3 sm:gap-6  mb-5">
+        
+
+        {% for event in events %}
+            <div class="max-w w-full mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <a href="#">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{event.title}}</h5>
+                </a>
+
+
+                <p class="mb-3 font-sm text-gray-400 dark:text-gray-400">{{event.date|date('Y-m-d H:i')}} - {{event.creator.name}} - {{event.public ? 'Public' : 'Private'}}</p>
+
+
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{event.description}}</p>
+
+
+                {% if app.user %}
+                            <td class="px-6 py-4">
+                            {% if event.creator == app.user %}
+                                <a href="{{ path('app_event_edit', {'id': event.id}) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">edit</a>
+                            {% endif %}
+
+                           
+                            {% set is_user_enrolled = false %}
+                            {% for inscription in event.inscriptions %}
+                                {% if inscription.user == app.user %}
+                                    {% set is_user_enrolled = true %}
+                                    <a href="{{ path('app_unroll_event', {'event_id': event.id}) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Unsubscribe</a>
+                                    
+                                {% endif %}
+                            {% endfor %}
+                            {% if ((not is_user_enrolled) and event.inscriptions|length < event.maxpeople) %}
+                                <a href="{{ path('app_enroll_event', {'event_id': event.id}) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Subscribe</a>
+                            {% endif %}
+    
+
+                        </td>
+                    {% endif %}
+
+                
+                    
+                    {{event.inscriptions|length }}/{{ event.maxpeople }}
+
+            
+
+              
+            </div>
+        {% endfor %}
+
+
+
+        
+
+    </div>
+
+    <a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" href="{{ path('app_event_new') }}">Create new</a>
+
+    <div class="flex justify-center mt-4">
+        {{ knp_pagination_render(events) }}
+    </div>
+
+{% endblock %}
+
+
+  
